@@ -1,0 +1,588 @@
+Settings:
+    Description:
+        A structure that contains the settings of
+        the aquacomputer high flow NEXT device.
+
+    Size:
+        0x02AA (682)
+
+    Fields:
+        Offset  Type        Description
+
+        -= General =-
+
+        0x0000  uint8       OpCode
+                                0x03 Values
+        0x0001  uint8[2]    <constant 00 01>
+
+        -= Display =-
+
+        0x0003  uint8       Temperature Unit
+                                0x00 °C
+                                0x01 °F
+        0x0004  uint8       Flow Unit
+                                0x00 Liter
+                                0x02 Gallons
+        0x0005  uint8       <constant 00>
+        0x0006  uint8       Next Page Interval
+                                [3..60] Interval in Seconds
+                                61: Disable Automatic Page Change
+        0x0007  uint8[2]    <contant 00 00>
+        0x0009  uint16be    Page Flags
+                                0x0001 Enable Display: Device Info
+                                0x0002 Enable Display: Flow
+                                0x0004 Enable Display: Water Temp
+                                0x0008 Enable Display: External Temp
+                                0x0010 Enable Display: Conductivity
+                                0x0020 Enable Display: Water Quality
+                                0x0040 Enable Display: Volume Count
+                                0x0080 Enable Display: Power Sensor
+                                0x0100 Enable Display: Flow / Water Temp
+                                0x0200 Enable Display: Conductivity / Quality
+                                0x0400 Enable Display: Temperature
+                                0x0800 Enable Display: Flow Volume
+                                0x1000 Enable Display: Char 1
+                                0x2000 Enable Display: Char 2
+                                0x4000 Enable Display: Char 3
+                                0x8000 Enable Display: Char 4
+        0x000B  uint8[4]    <constant 00 00 00 00>
+        0x000F  uint8       Display Brighness
+                                0x00 Meximum
+                                0x01 Medium
+                                0x02 Low
+        0x0010  uint8       Display Brighness when Idle
+                                0x00 Meximum
+                                0x01 Medium
+                                0x02 Low
+                                0x03 Off
+        0x0011  uint8[6]    <contant 02 BC 02 58>
+        0x0015  uint8       Display Flags
+                                0x01 Rotate
+                                0x04 Invert
+                                0x08 Auto Invert
+                                0x10 Disable Device Buttons
+                                0x20 Lock Menu
+        0x0016  uint8       <contant 00>
+        0x0017  uint8       Chart 1 Source
+                                0x00 Flow
+                                0x01 Water Temperature
+                                0x02 External Temperature
+                                0x03 Conductivity
+                                0x04 Water Quality
+                                0x05 Power Consumption
+                                0x06 System Voltage (5V)
+        0x0018  uint16be    Chart 1 Interval
+                                in 1/10 Seconds
+        0x001A  uint8       <constant 00>
+        0x001B  uint8       Chart 2 Source
+                                <See Chat 1 Source>
+        0x001C  uint16be    Chart 2 Interval
+                                in 1/10 Seconds
+        0x001F  uint8       <constant 00>
+        0x001F  uint8       Chart 3 Source
+                                <See Chat 1 Source>
+        0x0020  uint16be    Chart 3 Interval
+                                in 1/10 Seconds
+        0x0022  uint8       <constant 00>
+        0x0023  uint8       Chart 4 Source
+                                <See Chat 1 Source>
+        0x0024  uint16be    Chart 4 Interval
+                                in 1/10 Seconds
+
+        -= System =-
+
+        0x0026  uint8       <contant 00>
+        0x0027  uint8       Flags
+                                01 Allow USB Power Supply with up to 2A
+        0x0028  uint16be    USB Power Supply Limit
+                                in mA (default 500mA)
+        0x002A  uint8       AquaBus Address
+                                [58..61]
+
+        -= Sensor =-
+
+        0x002B  int16be     Sensor Water Temperature Offset
+                                [-1500..1500] in 1/100 °C
+        0x002D  int16be     External Water Temperature Offset
+                                [-1500..1500] in 1/100 °C
+        0x002F  uint8       Medium
+                                0x00 DP Ultra
+                                0x01 Destilled Water
+        0x0030  uint8       Connector Type
+                                0x00 Inner Diameter > 7mmm
+                                0x01 Inner Diameter < 7mmm
+        0x0031  int16be[10]  Correction Values
+                                in 1/10 %
+        0x0045  uint16be[10] Flow Values
+                                in 1/10 l/h
+
+        -= Lightning =-
+
+        0x0059  uint8       Brightness
+                                [0..255] round(255 * percent / 100)
+        0x005A  uint8       <contant 00>
+        0x005B  uint8       Flags
+                                0x02 Disable Lightning
+        0x005C  uint8       <constant 00>
+        0x005D  Cntrl[8]    LED Controllers
+                                0..5 - 6 Controllers for the External Strip
+                                6..7 - 2 Controllers for the Sensor Itself
+        -= System =-
+
+        0x028D  uint8       Flags
+                                0x01 Enter Standby if USB is not Connected
+                                0x02 Enter Standby upon USB Suspend Command
+                                0x04 Enter Standby if AquaBus Connection is Interrupted
+                                0x10 Disable Alarm Detection
+                                0x20 Display Off
+                                0x40 LEDs Disabled
+                                0x80 Disable Volume Counter
+        0x028E  uint8[2]    <constant 00 00>
+
+        -= Sensor =-
+
+        0x0290  int16be     Conductivity Offset
+                                [-50..50] in 1/10 uS/cm
+        0x0292  uint16be    Qater Quality 100%
+                                [0..0xFFFF] in 1/10 uS/cm
+        0x0294  uint16be    Qater Quality 0%
+                                [0..0xFFFF] in 1/10 uS/cm
+        0x0296  uint8       <constant 00>
+        0x0297  uint8       Flags
+                                0x01 Automatic Power Offset Compensation in Standby
+        0x0298  uint16be    Damping
+                                [0..100]
+
+        -= Alarms =-
+
+        0x029A  uint8       Flags
+                                0x20 Disable Signal Output During Alarm
+                                0x40 Show Alarms Optically by Red Flashing
+                                0x80 Activate Buzzer Dugin Alarms
+        0x029B  uint8       Flags
+                                0x01 Flow Alarm
+                                0x02 Water Temperature Alarm
+                                0x04 External Temperature Alarm
+                                0x08 Water Qualitzy Alarm
+        0x029C  uint8       <constant 00>
+        0x029D  uint8       Ignore Alarm at System Startup
+                                [0..100] in Seconds
+        0x029E  uint16be    Flow Alarm Limit
+                                in 1/10 l/h
+        0x02A0  uint16be    Water Temperature Alarm Limit
+                                in 1/100 °C
+        0x02A2  uint16be    External Temperature Alarm Limit
+                                in 1/100 °C
+        0x02A4  uint16be    Water Quality Alarm Limit
+                                in 1/100 %
+        0x02A6  uint8       Output Signal
+                                0x00 Generate Contatnt Speed Signal
+                                0x01 Generate High Flow Sensor (53068) Signal (DP Ultra, Inner Diameter > 7mm)
+                                0x02 Generate Fan Speed Signal from Flow Rate (1000 rpm = 100 l/h)
+                                0x03 Power Switch, Switch 1 Second at Alarm
+                                0x04 Permanently Switch on Alarm
+                                0x05 Permanently Switch without Alarm
+
+        -= General =-
+
+        0x02A7  uint8       <constant 01>
+        0x02A8  uint16be    Checksum
+
+
+
+Cntrl:
+    Description:
+        Settings of a single LED effect
+
+    Size:
+        Size: 0x46 (70)
+
+    Fields:
+        Offset  Type        Description
+
+        0x0000  uint8       Strip Offset
+        0x0001  uint8       Strip Length
+        0x0002  uint8       Effect ID
+                                01 Static
+                                    Color 0: Color
+                                    Source Control 0: Brightness
+                                    Source Control 1: Saturation
+                                02 Breathing
+                                    Color 0: Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Intensity
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Intensity
+                                                                    [0..100] in percent
+                                        0x0004  uint16be        Delay Min Brightness
+                                                                    [0..100] in percent
+                                        0x0006  uint16be        Delay Min Brightness
+                                                                    [0..100] in percent
+                                03 Rainbow
+                                    Color 0: Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Color Range
+                                                                    [0..100] in percent
+                                    Effect Specific Flags:
+                                        0x02    Reverse Direction
+                                04 Blink
+                                    Color 0: Background
+                                    Color 1-5: User Defined Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Color Count
+                                                                    [1..5]
+                                    Effect Specific Flags:
+                                        0x02 Fade In
+                                        0x04 Fade Out
+                                        0x08 Random Color
+                                        0x10 Slide Colors
+                                05 Color Change
+                                    Color 0-5: User Defined Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Color Count
+                                                                    [2..6]
+                                    Effect Specific Flags:
+                                        0x04 Fade
+                                        0x08 Random Color
+                                        0x10 Slide Colors
+                                07 Sequence
+                                    Color 0: Background
+                                    Color 1-5: User Defined Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Smoothness
+                                                                    [0..100] in percent
+                                        0x0004  uint16be        Color Count
+                                                                    [1..5]
+                                        0x0006  uint16be        Delay After Sequence
+                                                                    [1..100]
+                                        0x0008  uint16be        Delay Before Sequence
+                                                                    [1..100]
+                                    Effect Specific Flags:
+                                        0x02 Reverse Direction
+                                        0x04 Fade
+                                        0x08 Random Color
+                                08 Scanner
+                                    Color 0: Background
+                                    Color 1: Outer Color
+                                    Color 2: Inner Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Smoothness
+                                                                    [0..100] in percent
+                                        0x0004  uint16be        Width
+                                                                    [1..100]
+                                    Effect Specific Flags:
+                                        0x02 Reverse Direction
+                                        0x04 Fade
+                                        0x08 Random Color
+                                        0x20 Color Mode 2
+                                        0x40 Color Change
+                                        0x80 Circular
+                                09 Laser
+                                    <Same as Scanner>
+                                10 Wave
+                                    Color 0: Background
+                                    Color 1-5: User Defined Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Smoothness
+                                                                    [0..100] in percent
+                                        0x0004  uint16be        Width
+                                                                    [1..100]
+                                        0x0006  uint16be        Color Count
+                                                                    [1..5]
+                                    Effect Specific Flags:
+                                        0x02 Reverse Direction
+                                        0x08 Random Color
+                                        0x80 Circular
+                                11 Color Sequence
+                                    Color 0-5: User Defined Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Smoothness
+                                                                    [0..100] in percent
+                                        0x0004  uint16be        Constant
+                                                                    0x0001
+                                        0x0006  uint16be        Color Count
+                                                                    [2..6]
+                                        0x0008  uint16be        Color Change Speed
+                                                                    [1..100]
+                                    Effect Specific Flags:
+                                        0x02 Reverse Direction
+                                        0x08 Random Color
+                                12 Color Shift
+                                    Color 0: Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Speed
+                                                                    [0..100] in percent
+                                        0x0002  uint16be        Color Range
+                                                                    [0..100] in percent
+                                        0x0004  uint16be        Total Area
+                                                                    [1..100]
+                                    Effect Specific Flags:
+                                        0x02 Reverse Direction
+                                13 Bar Graph
+                                    Color 0: Background
+                                    Color 1: Peak Value
+                                    Color 2: Start Color
+                                    Color 3-5: user Defined Colors
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Min Value
+                                                                    Sensor Value
+                                        0x0002  uint16be        Max Value
+                                                                    Sensor Value
+                                        0x0004  uint16be        Rotation
+                                                                    [0..100]
+                                        0x0006  uint16be        Color Count
+                                                                    [1..3]
+                                        0x0008  uint16be[3]     Color Thresholds
+                                                                    Sensor Value
+                                        0x000E  uint16be        Peak Hold Time
+                                                                    [0..100]
+                                    Effect Specific Flags:
+                                        0x0001 Fade Ranges
+                                        0x0002 Show Bar
+                                        0x0004 Show Ranges
+                                        0x0008 Reverse Direction
+                                        0x0020 Show Peak Value
+                                        0x0080 Start Color Blink
+                                        0x0100 Color 0 Blink
+                                        0x0200 Color 1 Blink
+                                        0x0400 Color 2 Blink
+                                14 Flame
+                                    Color 0: Background
+                                    Color 1: Color 1
+                                    Color 2: Color 2
+                                    Source Control 0: Intensity
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Intensity
+                                                                    [0..100]
+                                15 Rain
+                                    Color 0: Background
+                                    Color 1: Color
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Drop Speed
+                                                                    [1..100]
+                                        0x0002  uint16be        Drop Items
+                                                                    [1..4]
+                                        0x0004  uint16be        Drop Size
+                                                                    [1..100]
+                                        0x0008  uint16be        Drop Smoothness
+                                                                    [1..100]
+                                    Effect Specific Flags:
+                                        0x02 Reverse Direction
+                                        0x08 Random Color
+                                        0x10 Snow
+                                16 Snow
+                                    <Same as Rain>
+                                17 Stardust
+                                    <Same as Rain>
+                                18 Color Switch
+                                    Color 0: Start Color
+                                    Color 1-5: User Defind Color
+                                    Source Control 0: Brightness
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Color Count
+                                                                    [1..5]
+                                        0x0002  uint16be        Min Value
+                                                                    Sensor Value
+                                        0x0004  uint16be[5]     Color Values
+                                                                    Sensor Value
+                                        0x000E  uint16be        Max Value
+                                                                    Sensor Value
+                                    Effect Specific Flags:
+                                        0x01 Fade
+                                        0x02 Range 1 Blink
+                                        0x04 Range 2 Blink
+                                        0x08 Range 3 Blink
+                                        0x10 Range 4 Blink
+                                        0x20 Range 5 Blink
+                                        0x40 Range 6 Blink
+                                19 Swiping Rainbow
+                                    Source Control 0: Speed
+                                    Source Control 1: Brightness
+                                    Color 0: Point Color
+                                    Color 1: Strip Color
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Point Speed
+                                                                    [1..100]
+                                        0x0002  uint16be        Point Smoothness
+                                                                    [1..100]
+                                        0x0004  uint16be        Point Size
+                                                                    [1..100]
+                                        0x0006  uint16be        Color Change Speed
+                                                                    [1..100]
+                                        0x0006  uint16be        Color Range
+                                                                    [1..100]
+                                    Effect Specific Flags:
+                                        0x01 Reverse Direction
+                                20 Sound Flash
+                                    Color 0: Background
+                                    Color 1-4: User Defind Color
+                                    Data is send using URB_FUNCTION_BULK_OR_INTERRUPT_TRANSFER (0x0009)
+                                21 Sound Bars
+                                    <Same as Bar Graph>
+                                22 Sound Slider
+                                    Color 0: Background
+                                    Color 1-4: User Defind Color
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Effect 1
+                                                                    00 Outwards From Center
+                                                                    01 Inwards to Center A
+                                                                    02 Inwards to Center B
+                                                                    03 From the Left
+                                                                    04 From the Right
+                                                                    05 All LEDs
+                                        0x0002  uint16be        Effect 2
+                                                                    <See Effect 1>
+                                        0x0004  uint16be        Effect 3
+                                                                    <See Effect 1>
+                                        0x0006  uint16be        Effect 4
+                                                                    <See Effect 1>
+                                        0x0008  uint16be        Effect Speed 1
+                                                                    [1..10]
+                                        0x000A  uint16be        Effect Speed 2
+                                                                    [1..10]
+                                        0x000C  uint16be        Effect Speed 3
+                                                                    [1..10]
+                                        0x000E  uint16be        Effect Speed 4
+                                                                    [1..10]
+                                        0x0010  uint16be        Rotate Color
+                                                                    [0..100]
+                                23 Sound Shift
+                                    Color 0: Background
+                                    Color 1: Effect Color 1
+                                    Color 2: Effect Color 2
+                                    Effect Specific Data:
+                                        0x0000  uint16be        Rotate Color
+                                                                    [0..100]
+                                        0x0002  uint16be        Effect 1 Length
+                                                                    [1..10]
+                                        0x0004  uint16be        Effect 2 Length
+                                                                    [1..10]
+                                        0x0006  uint16be        Idle Speed
+                                                                    [0..100]
+                                        0x0008  uint16be        Activity Speed
+                                                                    [0..100]
+                                    Effect Specific Flags:
+                                        0x01 Reverse Direction
+                                        0x02 Effect 1 Random Color
+                                        0x04 Effect 2 Random Color
+                                24 Ambient
+                                    Color 0: Background
+                                    Data is send using URB_FUNCTION_BULK_OR_INTERRUPT_TRANSFER (0x0009)
+                                33 Custom Gradient
+                                    Source Control 0: Rotation
+                                    Color 0: Start Color
+                                    Color 1-3: User Defined Colors
+                                    Effect Specific Data:
+                                        0x0000  uint16be        <Constant>
+                                                                    0x0000
+                                        0x0002  uint16be        <Constant>
+                                                                    0x03E8
+                                        0x0004  uint16be        Rotation
+                                                                    [0..100]
+                                        0x0006  uint16be        Color Count
+                                                                    [1..3]
+                                        0x0008  uint16be[3]     Color Thresholds
+                                                                    Sensor Value
+                                    Effect Specific Flags:
+                                        0x07 <Constant>
+                                        0x08 Reverse Direction
+                                        0x10 Reverse Rotation
+        0x0003  uint16be    Flags
+                                <Effect Specific Flags>
+                                0x4000 - Enable Source Control 0
+                                0x8000 - Enable Source Control 1
+        0x0005  uint16be    Data Source
+                                0xFFFF - Disable
+                                0..N - ID of Data Source
+
+        -= Source Control =-
+
+        0x0007  uint8       Rising Values
+                                [0..100]
+        0x0008  uint8       Falling Values
+                                [0..100]
+        0x0009  SrcCrtl     Source Control 0
+        0x000F  SrcCrtl     Source Control 1
+
+        -= Effects and Colors =-
+
+        0x0015  uint8[24]   Effect Specific Data
+        0x002D  Color[6]    Color Slots
+        0x0045  uint8       <constant 00>
+
+
+
+Color:
+    Description:
+        HSV color value.
+
+    Size:
+        0x04 (4)
+
+    Fields:
+        Offset  Type        Description
+
+        0x0000  uint8       HSECTION
+                                floor(H/60)
+        0x0001  uint8       HOFFSET
+                                round(H % 60 * 255 / 60)
+        0x0002  uint8       SATURATION
+                                [0..255]
+        0x0003  uint8       VALUE
+                                [0..255]
+
+
+
+SrcCrtl:
+    Description:
+        A mapping configuration that scales an external
+        input signal into an effect parameter range.
+
+    Size:
+        0x06 (6)
+
+    Fields:
+        Offset  Type        Description
+
+        0x0000  uint16be    Input Min
+                                Sensor Value (depends on the data source)
+        0x000B  uint16be    Input Max
+                                Sensor Value (depends on the data source)
+        0x000D  uint8       Output Min
+                                [0..255] round(255 * percent / 100)
+        0x000E  uint8       Output Min
+                                [0..255] round(255 * percent / 100)

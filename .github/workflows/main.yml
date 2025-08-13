@@ -1,0 +1,58 @@
+name: Main
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: check
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+
+    - name: Install libudev (Linux)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y libudev-dev pkg-config
+
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: rust environment
+      run: rustc --version && cargo --version
+
+    - name: cargo clippy
+      run: cargo clippy --all-targets --all-features -- --deny "warnings"
+
+    - name: cargo fmt
+      run: cargo fmt --all --check
+
+    - name: cargo test
+      run: cargo test
+
+    - name: cargo doc
+      run: cargo doc --no-deps
+      env:
+        RUSTDOCFLAGS: '-D warnings'
+
+    - name: cargo build
+      run: cargo build --release

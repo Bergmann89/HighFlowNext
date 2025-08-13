@@ -1,0 +1,44 @@
+[package]
+name = "high_flow_next"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+arrayvec = "0.7"
+bitflags = "2.9"
+color_space = "0.5"
+crc = "3.3"
+hidapi = "2.6"
+thiserror = "2.0"
+
+[build-dependencies]
+base64 = "0.22"
+regex = "1.11"
+
+[lints.rust]
+future_incompatible = { level = "warn", priority = -1}
+incomplete_features = "allow"
+missing_debug_implementations = { level = "warn", priority = -1}
+missing_docs  = { level = "warn", priority = -1}
+nonstandard_style = { level = "warn", priority = -1}
+rust_2018_idioms = { level = "warn", priority = -1}
+rust_2021_compatibility = { level = "warn", priority = -1}
+unreachable_pub  = { level = "warn", priority = -1}
+unused = { level = "warn", priority = -1}
+
+[lints.clippy]
+cast_possible_truncation = "warn"
+default_trait_access = "allow"
+explicit_iter_loop = "allow"
+match_same_arms = "allow"
+match_wildcard_for_single_variants = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+module_name_repetitions = "allow"
+no_effect_underscore_binding = "allow"
+pedantic = { level = "warn", priority = -1}
+similar_names = "allow"
+single_match_else = "allow"
+struct_field_names = "allow"
+uninlined_format_args = "allow"
